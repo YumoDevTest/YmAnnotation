@@ -21,21 +21,22 @@ import javax.tools.Diagnostic;
 @AutoService(Processor.class)
 public class ClassProcessor extends AbstractProcessor {
 
+    Messager mMessager = null;
     /**
      * 相当于处理器的Main函数，定义扫描、评估和处理器注解的代码，以及生成的Java文件。
-     * @param set
+     * @param annotations
      * @param roundEnvironment
      * @return
      */
     @Override
-    public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        Messager messager = processingEnv.getMessager();
-        messager.printMessage(Diagnostic.Kind.NOTE, "printMessage:test");
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
+        mMessager = processingEnv.getMessager();
+        mMessager.printMessage(Diagnostic.Kind.NOTE, "printMessage:test");
 
         for (Element element : roundEnvironment.getElementsAnnotatedWith(YmClassTest.class)){
-            messager.printMessage(Diagnostic.Kind.NOTE, "printMessage:"+element.toString()+" kind:"+element.getKind());
+            mMessager.printMessage(Diagnostic.Kind.NOTE, "printMessage:"+element.toString()+" kind:"+element.getKind());
             if (element.getKind() == ElementKind.CLASS){
-                messager.printMessage(Diagnostic.Kind.NOTE, "printMessage:"+element.toString());
+                mMessager.printMessage(Diagnostic.Kind.NOTE, "printMessage:"+element.toString());
             }
         }
         return true;
